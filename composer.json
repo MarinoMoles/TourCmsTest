@@ -1,0 +1,27 @@
+{
+    "name": "tourcms/tourcms-php",
+    "type": "library",
+    "description": "TourCMS API wrapper for PHP",
+    "keywords": ["tourcms","api"],
+    "homepage": "https://github.com/TourCMS/tourcms-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TourCMS",
+            "email": "support@tourcms.com",
+            "homepage": "http://www.tourcms.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {"TourCMS\\Utils\\": "src/"}
+    },
+    "extra": {
+            "branch-alias": {
+                "dev-master": "3.2.x-dev",
+                "dev-v1.x": "1.9.x-dev"
+            }
+        }
+}
