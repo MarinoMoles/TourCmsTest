@@ -1,31 +1,27 @@
-
-
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
 
 	<?php
 	//API settings
-	$marketplace_id = 126;
-	$channel_id = 0;
-	$api_key = "5aed2d3d69ea";
-	$result_type = 'simplexml';
-	$timeout = 0;
-	include $_SERVER['DOCUMENT_ROOT'] . '/src/TourCMS.php';
+    include 'src/config.php';
+	include  'src/TourCMS.php';
+
 	Use TourCMS\Utils\TourCMS as TourCMS;
 	//Making an objet with our settings
 	$tourcms = new TourCMS($marketplace_id, $api_key, $result_type, $timeout);
-	//settig a variable that contains the search input
-	$search = "country=ES&product_type=4";
-	//Calling API to obtain results
-	$result = $tourcms->search_tours($search, $channel_id);
-	// Pagination
-	$obtained_results = count($result->tour);
+    //pagination parameter
 	$per_page = 10;
 	$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-	$pages = ceil($obtained_results / $per_page);
-	//to calculate the first resut shown for each page
-	$start =($page -1)*$per_page;
+    //settig a variable that contains the search input
+    $search = "country=ES&product_type=4&page=$page&per_page=$per_page";
+    //Calling API to obtain results
+    $result = $tourcms->search_tours($search, $channel_id);
+    //to calculate the amount of pages we need
+	$pages = ceil($result->total_tour_count / $per_page);
+   
+	
+	
 	?>
 	
     <meta charset="UTF-8">
@@ -113,9 +109,7 @@
 
 <?php
 //Loop to display 10 result per page
-	for ($i=0; $i<=$per_page -1 ;$i++){
-		if($result->tour[$i+$start]!= null){
-			$tour = $result->tour[$i+$start];
+	foreach($result->tour as $tour){
 			//this variables will be used in the mobile version too
 			$name = $tour->tour_name;
 			$departure = $tour->next_bookable_date;
@@ -164,7 +158,7 @@
 					
 
 <?php 	
-		}
+		
 
 	} 
 ?>
